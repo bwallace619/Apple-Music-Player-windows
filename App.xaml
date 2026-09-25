@@ -1,0 +1,11 @@
+<Application x:Class="AppleMusicPlayer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/PlayerWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="IslandBackground" Color="#FF090A0C" />
+        <SolidColorBrush x:Key="PrimaryText" Color="#FFF8F8FA" />
+        <SolidColorBrush x:Key="SecondaryText" Color="#FF92959F" />
+        <SolidColorBrush x:Key="Accent" Color="#FFFF375F" />
+    </Application.Resources>
+</Application>
