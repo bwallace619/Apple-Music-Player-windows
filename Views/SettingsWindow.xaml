@@ -1,0 +1,212 @@
+<Window x:Class="AppleMusicPlayer.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Apple Music Player"
+        Width="640" Height="760"
+        MinWidth="580" MinHeight="680"
+        WindowStartupLocation="CenterOwner"
+        Background="#FF111216"
+        Foreground="#FFF7F7F9">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style x:Key="SectionCard" TargetType="Border">
+            <Setter Property="Background" Value="#FF1A1B20" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style x:Key="SettingLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FFF4F4F6" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style TargetType="Slider">
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Setter Property="Foreground" Value="#FFFF375F" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,7" />
+            <Setter Property="Foreground" Value="#FFE4E4E8" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="0,7,0,12" />
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,7" />
+            <Setter Property="Margin" Value="0,6,6,0" />
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#FF15161B" Padding="24,20,24,16">
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="Player settings" FontSize="24" FontWeight="SemiBold" />
+                    <TextBlock Text="Shape the notch around your music." Foreground="#FF92959F" Margin="0,5,0,0" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Width="150">
+                    <TextBlock Text="Preset" Foreground="#FF92959F" FontSize="11" />
+                    <ComboBox x:Name="PresetSelector" SelectionChanged="OnPresetChanged" Margin="0,4,0,0">
+                        <ComboBoxItem Content="Custom" />
+                        <ComboBoxItem Content="Minimal" />
+                        <ComboBoxItem Content="Album" />
+                        <ComboBoxItem Content="Glass" />
+                        <ComboBoxItem Content="Calm" />
+                        <ComboBoxItem Content="Dynamic" />
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl x:Name="SettingsTabs" Margin="18,16" Background="Transparent" BorderThickness="0">
+            <TabItem Header="Appearance">
+                <ScrollViewer Padding="4,14,4,20" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Border Style="{StaticResource SectionCard}">
+                            <StackPanel>
+                                <TextBlock Text="Surface" Style="{StaticResource SettingLabel}" />
+                                <ComboBox x:Name="BackgroundMode" SelectionChanged="OnSelectionChanged">
+                                    <ComboBoxItem Content="Solid" />
+                                    <ComboBoxItem Content="Album colour" />
+                                    <ComboBoxItem Content="Album gradient" />
+                                    <ComboBoxItem Content="Acrylic / glass" />
+                                </ComboBox>
+                                <CheckBox x:Name="UseGlass" Content="Enable glass material" Click="OnBooleanChanged" />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,5">
+                                    <TextBox x:Name="StaticColor" Width="100" Text="#FF090A0C" TextChanged="OnStaticColorChanged" />
+                                    <Button Content="Choose colour" Click="OnChooseColour" />
+                                </StackPanel>
+                                <TextBlock Text="Background opacity" Style="{StaticResource SettingLabel}" />
+                                <Slider x:Name="BackgroundOpacity" Minimum="0.55" Maximum="1" ValueChanged="OnSliderChanged" />
+                                <TextBlock Text="Shadow strength" Style="{StaticResource SettingLabel}" Margin="0,10,0,0" />
+                                <Slider x:Name="ShadowStrength" Minimum="0" Maximum="0.7" ValueChanged="OnSliderChanged" />
+                                <CheckBox x:Name="ShowBorder" Content="Show subtle outline" Click="OnBooleanChanged" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource SectionCard}">
+                            <StackPanel>
+                                <TextBlock Text="Dimensions" Style="{StaticResource SettingLabel}" />
+                                <TextBlock Text="Compact width" Foreground="#FF92959F" Margin="0,12,0,0" />
+                                <Slider x:Name="CompactWidth" Minimum="200" Maximum="320" ValueChanged="OnSliderChanged" />
+                                <TextBlock Text="Expanded width" Foreground="#FF92959F" Margin="0,12,0,0" />
+                                <Slider x:Name="ExpandedWidth" Minimum="320" Maximum="480" ValueChanged="OnSliderChanged" />
+                                <TextBlock Text="Corner radius" Foreground="#FF92959F" Margin="0,12,0,0" />
+                                <Slider x:Name="CompactCornerRadius" Minimum="12" Maximum="34" ValueChanged="OnSliderChanged" />
+                                <TextBlock Text="The island remains centred while these dimensions animate." Foreground="#FF777A84" FontSize="11" Margin="0,10,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Artwork">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <TextBlock Text="Album artwork" Style="{StaticResource SettingLabel}" />
+                            <CheckBox x:Name="ShowCompactArtwork" Content="Show artwork in compact notch" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ShowExpandedArtwork" Content="Show artwork in expanded player" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="UseAlbumArtworkColours" Content="Use artwork colours for the background" Click="OnBooleanChanged" />
+                            <TextBlock Text="Artwork size" Foreground="#FF92959F" Margin="0,14,0,0" />
+                            <Slider x:Name="ArtworkSize" Minimum="40" Maximum="84" ValueChanged="OnSliderChanged" />
+                            <TextBlock Text="Artwork corner radius" Foreground="#FF92959F" Margin="0,14,0,0" />
+                            <Slider x:Name="ArtworkCornerRadius" Minimum="4" Maximum="18" ValueChanged="OnSliderChanged" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Waveform">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <TextBlock Text="Spectrum" Style="{StaticResource SettingLabel}" />
+                            <CheckBox x:Name="EnableWaveform" Content="Enable live waveform" Click="OnBooleanChanged" />
+                            <ComboBox x:Name="WaveformColourMode" SelectionChanged="OnSelectionChanged">
+                                <ComboBoxItem Content="White" />
+                                <ComboBoxItem Content="Accent colour" />
+                                <ComboBoxItem Content="Album artwork colour" />
+                            </ComboBox>
+                            <TextBlock Text="Sensitivity" Foreground="#FF92959F" />
+                            <Slider x:Name="WaveformSensitivity" Minimum="0.2" Maximum="1.5" ValueChanged="OnSliderChanged" />
+                            <TextBlock Text="Smoothing" Foreground="#FF92959F" Margin="0,12,0,0" />
+                            <Slider x:Name="WaveformSmoothing" Minimum="0.1" Maximum="1" ValueChanged="OnSliderChanged" />
+                            <TextBlock Text="Height" Foreground="#FF92959F" Margin="0,12,0,0" />
+                            <Slider x:Name="WaveformHeight" Minimum="0.35" Maximum="1.2" ValueChanged="OnSliderChanged" />
+                            <TextBlock Text="Number of bars" Foreground="#FF92959F" Margin="0,12,0,0" />
+                            <Slider x:Name="WaveformBars" Minimum="10" Maximum="30" TickFrequency="1" IsSnapToTickEnabled="True" ValueChanged="OnSliderChanged" />
+                            <Button Content="Apply calm preset" HorizontalAlignment="Left" Click="OnCalmPresetClicked" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Behaviour">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <CheckBox x:Name="LaunchAtStartup" Content="Launch at startup" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="AlwaysOnTop" Content="Always on top" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="AutoHideWhenStopped" Content="Auto-hide when playback stops" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="HoverToExpand" Content="Hover to expand" Click="OnBooleanChanged" />
+                            <TextBlock Text="Hover delay" Foreground="#FF92959F" Margin="0,12,0,0" />
+                            <Slider x:Name="HoverDelayMs" Minimum="0" Maximum="500" TickFrequency="25" IsSnapToTickEnabled="True" ValueChanged="OnSliderChanged" />
+                            <TextBlock Text="Collapse delay" Foreground="#FF92959F" Margin="0,12,0,0" />
+                            <Slider x:Name="CollapseDelayMs" Minimum="80" Maximum="900" TickFrequency="20" IsSnapToTickEnabled="True" ValueChanged="OnSliderChanged" />
+                            <CheckBox x:Name="KeepExpanded" Content="Keep player expanded" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="EnableGestures" Content="Enable swipe gestures" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ReverseSwipeDirection" Content="Reverse swipe direction" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="EnableAnimations" Content="Enable animations" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ReduceMotion" Content="Reduce motion" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="EnableTrayIcon" Content="Show tray icon" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="StartMinimised" Content="Start hidden / minimised" Click="OnBooleanChanged" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Playback">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <CheckBox x:Name="ShowProgressBar" Content="Show progress bar" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ShowShuffleRepeat" Content="Show shuffle and repeat" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ShowPreviousNext" Content="Show previous and next" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ShowCompactTrackText" Content="Show title and artist in compact mode" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="ShowExpandedAlbum" Content="Show album name when expanded" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="AllowProgressSeek" Content="Allow clicking the progress bar to seek" Click="OnBooleanChanged" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Animation">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <TextBlock Text="Motion" Style="{StaticResource SettingLabel}" />
+                            <ComboBox x:Name="AnimationSpeed" SelectionChanged="OnSelectionChanged">
+                                <ComboBoxItem Content="Slow" />
+                                <ComboBoxItem Content="Normal" />
+                                <ComboBoxItem Content="Fast" />
+                            </ComboBox>
+                            <TextBlock Text="Expansion spring strength" Foreground="#FF92959F" />
+                            <Slider x:Name="SpringStrength" Minimum="0.2" Maximum="1" ValueChanged="OnSliderChanged" />
+                            <CheckBox x:Name="AnimateArtwork" Content="Animate artwork transitions" Click="OnBooleanChanged" />
+                            <CheckBox x:Name="AnimateWaveformFade" Content="Animate waveform fade" Click="OnBooleanChanged" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <ScrollViewer Padding="4,14,4,20">
+                    <Border Style="{StaticResource SectionCard}">
+                        <StackPanel>
+                            <TextBlock Text="Reset" Style="{StaticResource SettingLabel}" />
+                            <TextBlock Text="Restore the original balanced defaults. Changes apply immediately." Foreground="#FF92959F" Margin="0,6,0,16" />
+                            <Button Content="Restore defaults" HorizontalAlignment="Left" Click="OnRestoreDefaultsClicked" />
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
